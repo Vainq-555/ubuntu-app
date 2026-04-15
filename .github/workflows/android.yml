@@ -16,23 +16,31 @@ jobs:
         with:
           node-version: 22
 
+      # 1. Install deps
       - run: npm install
 
+      # 2. FORCE web build (important)
+      - run: |
+          mkdir -p www
+          cp -r * www/ || true
+
+      # 3. Capacitor sync AFTER web exists
       - run: npx cap sync android
 
+      # 4. Java setup
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Build Android APK
-        run: |
+      # 5. Build APK
+      - run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      # 6. Upload APK
+      - uses: actions/upload-artifact@v4
         with:
           name: app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
