@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UBUNTU – EHR</title>
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Theme color for mobile -->
+<meta name="theme-color" content="#5DADE2">
+
+<!-- iOS support -->
+<link rel="apple-touch-icon" href="IMG-20251003-WA0016.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<style>
+/* ===== COMMON ===== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.container {
+  text-align: center;
+  padding: 30px;
+  width: 90%;
+  max-width: 420px;
+}
+
+.logo {
+  width: 90px;
+  margin-bottom: 6px; /* closer to title */
+}
+
+.ubuntu-title {
+  font-family: "Comic Sans MS", "Segoe Script", cursive;
+  font-size: 20px;
+  font-weight: normal;
+  color: #2aa8e0;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 0 0 4px 0;
+}
+
+.subtitle {
+  margin-top: 4px;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+.links a {
+  display: block;
+  padding: 14px;
+  margin: 12px 0;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  background: #e0e0e0;
+  color: #2aa8e0;
+  border: 1px solid #ccc;
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: black;
+}
+
+/* ===== PASSWORD SCREEN ===== */
+#password-screen {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.password-box {
+  text-align: center;
+  padding: 30px;
+  width: 90%;
+  max-width: 320px;
+}
+
+.password-box input,
+.password-box button {
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.password-box input {
+  padding: 0 12px;
+  margin-top: 10px;
+}
+
+.password-box button {
+  margin-top: 15px;
+  background: #2aa8e0;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.password-box .forgot {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.password-box h2 {
+  color: #2aa8e0;   /* same blue as the title */
+  margin-bottom: 15px;
+}
+
+
+/* When keyboard opens (input focused), move login up */
+#password-screen:focus-within .password-box {
+  transform: translateY(-120px);
+  transition: transform 0.3s ease;
+}
+
+/* Default position */
+.password-box {
+  transform: translateY(-80px); /* your normal position */
+  transition: transform 0.3s ease;
+}
+
+
+/* 👇 ADD THIS RIGHT AFTER */
+#password-screen:focus-within .password-box {
+  transform: translateY(-20vh); /* move up when keyboard opens */
+}
+
+
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="password-box">
+    <h2>UBUNTU - EHR</h2>
+    <input type="password" id="passwordInput" placeholder="Mot de passe">
+    <button onclick="checkPassword()">Entrer</button>
+    <p id="error" style="color:red;"></p>
+    <p class="forgot">
+       Mot de passe oublié ?<br>
+       Veuillez contacter votre Point Focal
+    </p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+  <img src="IMG-20251229-WA0003.jpg" class="logo" alt="UBUNTU Logo">
+  <h1 class="ubuntu-title">
+    UBUNTU FOR EDUCATION<br>
+    AND HUMAN RIGHTS
+  </h1>
+  <div class="subtitle">Bienvenue dans notre service en ligne</div>
+
+  <div class="links">
+    <a href="https://ee-eu.kobotoolbox.org/x/n7WlmVOa" target="_blank">Rapport du transfert</a>
+    <a href="https://ee-eu.kobotoolbox.org/x/j4y4VH5I" target="_blank">Demande de crédit</a>
+    <a href="https://ee-eu.kobotoolbox.org/x/KytGu7zg" target="_blank">Approbation du crédit</a>
+    <a href="https://ee-eu.kobotoolbox.org/x/gegxuqwE" target="_blank">Retrait</a>
+    <a href="https://ee-eu.kobotoolbox.org/x/GfyJJAX0" target="_blank">Fiche à suggestions</a>
+  </div>
+
+  <div class="footer">
+    www.ubuntu-ehr.org<br>
+    info@ubuntu-ehr.org<br>
+    Bukavu, RD Congo
+  </div>
+</div>
+
+<!-- PASSWORD SCRIPT -->
+<script>
+const CORRECT_PASSWORD = "1234@ubt";
+
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  if(input === CORRECT_PASSWORD) {
+    document.getElementById("password-screen").style.display = "none";
+  } else {
+    document.getElementById("error").textContent = "Mot de passe incorrect";
+  }
+}
+</script>
+
+<!-- SERVICE WORKER -->
+<script>
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('Service Worker registered:', reg.scope))
+      .catch(err => console.error('Service Worker error:', err));
+  });
+}
+</script>
+
+</body>
+</html>

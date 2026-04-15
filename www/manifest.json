@@ -1,0 +1,17 @@
+{
+  "name": "UBUNTU - EHR",
+  "short_name": "UBUNTU EHR",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#5DADE2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "IMG-20251229-WA0003.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    }
+  ]
+}
