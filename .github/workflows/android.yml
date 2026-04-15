@@ -1,45 +1,20 @@
-name: Build APK
+- run: npm install
 
-on:
-  push:
-    branches:
-      - main
+      - run: mkdir -p www
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      # 1. Install deps
-      - run: npm install
-
-      # 2. FORCE web build (important)
-      - run: |
-          mkdir -p www
-          cp -r * www/ || true
-
-      # 3. Capacitor sync AFTER web exists
       - run: npx cap sync android
 
-      # 4. Java setup
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # 5. Build APK
-      - run: |
-          cd android
+      - name: Build APK
+        working-directory: android
+        run: |
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      # 6. Upload APK
       - uses: actions/upload-artifact@v4
         with:
           name: app-debug
