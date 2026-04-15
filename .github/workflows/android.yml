@@ -12,30 +12,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Java MUST come first (Capacitor + Gradle depend on it)
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # install dependencies
       - run: npm install
 
-      # 🔥 REAL FIX: build frontend (even if simple HTML app)
-      - name: Build Web App
-        run: |
+      # build web assets properly
+      - run: |
           mkdir -p www
           cp index.html www/
           cp manifest.json www/ || true
           cp sw.js www/ || true
           cp IMG-*.jpg www/ || true
 
-      # Capacitor sync AFTER real web exists
+      # Capacitor sync AFTER Java exists
       - run: npx cap sync android
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
+      # build APK
       - name: Build APK
         working-directory: android
         run: |
