@@ -16,10 +16,19 @@ jobs:
         with:
           node-version: 22
 
+      # install dependencies
       - run: npm install
 
-      - run: mkdir -p www
+      # 🔥 REAL FIX: build frontend (even if simple HTML app)
+      - name: Build Web App
+        run: |
+          mkdir -p www
+          cp index.html www/
+          cp manifest.json www/ || true
+          cp sw.js www/ || true
+          cp IMG-*.jpg www/ || true
 
+      # Capacitor sync AFTER real web exists
       - run: npx cap sync android
 
       - uses: actions/setup-java@v4
